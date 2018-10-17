@@ -18,7 +18,7 @@ import com.ruoyi.web.core.base.BaseController;
 
 /**
  * 图片验证码（支持算术形式）
- * 
+ *
  * @author ruoyi
  */
 @Controller
@@ -51,18 +51,19 @@ public class CaptchaController extends BaseController
             String capStr = null;
             String code = null;
             BufferedImage bi = null;
-            if ("math".equals(type))
+            if ("math".equals(type))//如果是数学验证码
             {
                 String capText = captchaProducerMath.createText();
                 capStr = capText.substring(0, capText.lastIndexOf("@"));
                 code = capText.substring(capText.lastIndexOf("@") + 1);
                 bi = captchaProducerMath.createImage(capStr);
             }
-            else if ("char".equals(type))
+            else if ("char".equals(type))//如果是字符验证码
             {
                 capStr = code = captchaProducer.createText();
                 bi = captchaProducer.createImage(capStr);
             }
+            //将验证码秘钥存入session
             session.setAttribute(Constants.KAPTCHA_SESSION_KEY, code);
             out = response.getOutputStream();
             ImageIO.write(bi, "jpg", out);
